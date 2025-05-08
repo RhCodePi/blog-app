@@ -2,7 +2,9 @@
 using BlogApp.Application.Abstractions.Services;
 using BlogApp.Persistance.Concretes.Repositories;
 using BlogApp.Persistance.Concretes.Services;
+using BlogApp.Persistance.Contexts;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Persistance
 {
@@ -12,6 +14,9 @@ namespace BlogApp.Persistance
         {
             services.AddSingleton<IArticleService, ArticleService>();
             services.AddSingleton<IArticleRepository, ArticleRepository>();
+            services.AddDbContext<BlogAppDBContext>(options => options.UseNpgsql(
+                Configuration.GetConnectionString
+                ));
         }
     }
 }
