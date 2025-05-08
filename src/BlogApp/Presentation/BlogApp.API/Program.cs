@@ -1,4 +1,6 @@
 
+using BlogApp.Persistance;
+
 namespace BlogApp.API
 {
     public class Program
@@ -7,10 +9,13 @@ namespace BlogApp.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddPersistanceService();
+
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
