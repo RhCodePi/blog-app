@@ -19,13 +19,13 @@ namespace BlogApp.API.Controller
         [HttpPost]
         public async Task<IActionResult> CreateArticle(Article article)
         {
-            var result = await _articleService.CreateArticle(article);
+            var result = await _articleService.CreateArticleAsync(article);
 
             return Ok(result);
         }
 
         [HttpGet("getAll")]
-        public  IActionResult GetAll()
+        public IActionResult GetAll()
         {
             var result = _articleService.GetAll();
 
