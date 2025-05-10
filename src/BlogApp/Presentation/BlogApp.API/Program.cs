@@ -12,6 +12,9 @@ namespace BlogApp.API
             builder.Services.AddPersistanceService();
 
 
+            builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+            policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,6 +28,7 @@ namespace BlogApp.API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
