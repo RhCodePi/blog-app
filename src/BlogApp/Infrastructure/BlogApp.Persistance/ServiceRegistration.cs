@@ -14,12 +14,13 @@ namespace BlogApp.Persistance
     {
         public static void AddPersistanceService(this IServiceCollection services)
         {
-            services.AddSingleton<IArticleService, ArticleService>();
-            services.AddSingleton<IArticleReadRepository, ArticleReadRepository>();
-            services.AddSingleton<IArticleWriteRepository, ArticleWriteRepository>();
+            services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IArticleReadRepository, ArticleReadRepository>();
+            services.AddScoped<IArticleWriteRepository, ArticleWriteRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddDbContext<BlogAppDBContext>(options => options.UseNpgsql(
                 Configuration.GetConnectionString
-                ),ServiceLifetime.Singleton);
+                ));
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 3;
