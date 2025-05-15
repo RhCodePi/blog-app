@@ -18,6 +18,7 @@ namespace BlogApp.Persistance
             services.AddScoped<IArticleReadRepository, ArticleReadRepository>();
             services.AddScoped<IArticleWriteRepository, ArticleWriteRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<BlogAppDBContext>(options => options.UseNpgsql(
                 Configuration.GetConnectionString
                 ));
