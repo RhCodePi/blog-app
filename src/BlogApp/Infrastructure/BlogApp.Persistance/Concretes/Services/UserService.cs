@@ -1,6 +1,7 @@
 ﻿using BlogApp.Application.Abstractions.Services;
 using BlogApp.Application.DTOs.User;
 using BlogApp.Application.DTOs.User.Response;
+using BlogApp.Application.Exceptions;
 using BlogApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -41,6 +42,18 @@ namespace BlogApp.Persistance.Concretes.Services
             }
 
             return response;
+        }
+
+        public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+        {
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+                throw new UserNotFoundException("invalid user");
         }
     }
 }
