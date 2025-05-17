@@ -19,6 +19,12 @@ namespace BlogApp.API.Controller
         public async Task<IActionResult> Login(LoginDto model)
         {
             var result = await _authService.Login(model);
+            return Ok(result);
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> LoginWithRefreshToken(LoginWtihRefreshTokenDTO model)
+        {
+            var result = await _authService.LoginWithRefreshToken(model.RefreshToken);
 
             return Ok(result);
         }
