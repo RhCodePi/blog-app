@@ -4,6 +4,9 @@ using BlogApp.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation;
+using BlogApp.Application.Validators;
+
 
 namespace BlogApp.API
 {
@@ -23,6 +26,9 @@ namespace BlogApp.API
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<RegistrationValidator>();
+
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer("User", jwtOptions =>
             {
