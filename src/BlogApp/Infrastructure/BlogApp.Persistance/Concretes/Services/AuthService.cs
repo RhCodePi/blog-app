@@ -50,9 +50,9 @@ namespace BlogApp.Persistance.Concretes.Services
             throw new AuthenticationErrorException();
         }
 
-        public async Task<TokenResponse> LoginWithRefreshToken(string refereshToken)
+        public async Task<TokenResponse> LoginWithRefreshToken(string refreshToken)
         {
-            AppUser? user = await _manager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refereshToken);
+            AppUser? user = await _userService.GetUserWithRefreshToken(refreshToken);
             if(user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
             {
                 var tokenRepsonse = _tokenService.CreateAccessToken(15, user);
