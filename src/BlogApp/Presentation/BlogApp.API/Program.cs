@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FluentValidation;
 using BlogApp.Application.Validators;
+using System.Security.Cryptography.Xml;
+using System.Text.Json.Serialization;
 
 
 namespace BlogApp.API
@@ -23,7 +25,10 @@ namespace BlogApp.API
             builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
             policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
