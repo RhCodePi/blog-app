@@ -1,4 +1,5 @@
 ﻿using BlogApp.Domain.Entities.Common;
+using BlogApp.Domain.Entities.Identity;
 
 namespace BlogApp.Domain.Entities
 {
@@ -6,6 +7,8 @@ namespace BlogApp.Domain.Entities
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public DateTime DeletedDate { get; set; }
+
+        public string UserID { get; set; }
+        public AppUser User { get; set; }
     }
 }
