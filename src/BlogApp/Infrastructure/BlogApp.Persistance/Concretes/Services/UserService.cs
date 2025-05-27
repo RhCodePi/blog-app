@@ -4,6 +4,7 @@ using BlogApp.Application.DTOs.User.Response;
 using BlogApp.Application.Exceptions;
 using BlogApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Persistance.Concretes.Services
 {
@@ -44,13 +45,25 @@ namespace BlogApp.Persistance.Concretes.Services
             return response;
         }
 
+        public async Task<AppUser?> GetUserWithRefreshToken(string refreshToken)
+        {
+            return await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+        }
+
+        public async Task<bool> UpdateUserAsync(AppUser user)
+        {
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
         public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
         {
             if (user != null)
             {
                 user.RefreshToken = refreshToken;
                 user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
-                await _userManager.UpdateAsync(user);
+                await UpdateUserAsync(user);
             }
             else
                 throw new UserNotFoundException("invalid user");

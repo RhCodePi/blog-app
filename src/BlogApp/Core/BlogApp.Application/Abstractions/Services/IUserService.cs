@@ -8,5 +8,7 @@ namespace BlogApp.Application.Abstractions.Services
     {
         Task<CreateUserResponse> CreateAppUser(CreateUserDTO userDTO);
         Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
+        Task<AppUser?> GetUserWithRefreshToken(string refreshToken);
+        Task<bool> UpdateUserAsync(AppUser user);
     }
 }
