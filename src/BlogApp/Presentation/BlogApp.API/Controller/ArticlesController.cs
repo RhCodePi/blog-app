@@ -40,8 +40,8 @@ namespace BlogApp.API.Controller
             }));
         }
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetUserArticles([FromForm] GetUserArticlesDTO model)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetUserArticles(GetUserArticlesDTO model)
         {
             var result = await _articleService.GetUserArticles(model);
 
