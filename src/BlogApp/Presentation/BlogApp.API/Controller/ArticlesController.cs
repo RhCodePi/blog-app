@@ -1,8 +1,7 @@
 ﻿using BlogApp.Application.Abstractions.Services;
 using BlogApp.Application.DTOs.Article;
-using BlogApp.Domain.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.API.Controller
@@ -13,10 +12,12 @@ namespace BlogApp.API.Controller
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
+        private readonly IValidator<EditArticleDTO> _editArticleValidator;
 
-        public ArticlesController(IArticleService articleService)
+        public ArticlesController(IArticleService articleService, IValidator<EditArticleDTO> validator)
         {
             _articleService = articleService;
+            _editArticleValidator = validator;
         }
 
         [HttpPost("[action]")]
@@ -43,7 +44,24 @@ namespace BlogApp.API.Controller
         [HttpPost("[action]")]
         public async Task<IActionResult> GetUserArticles(GetUserArticlesDTO model)
         {
-            var result = await _articleService.GetUserArticles(model);
+            var result = await _articleService.GetUserArticlesAsync(model);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> EditArticle(EditArticleDTO model)
+        {
+            var validResult = _editArticleValidator.Validate(model);
+
+            if(!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
+
+
+            var result = await _articleService.EditArticleAsync(model);
+
 
             return Ok(result);
         }

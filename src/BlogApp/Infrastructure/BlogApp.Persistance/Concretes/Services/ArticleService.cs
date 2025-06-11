@@ -66,20 +66,6 @@ namespace BlogApp.Persistance.Concretes.Services
             return result;
         }
 
-        public async Task<bool> UpdateArticleAsync(string id, Article article)
-        {
-
-            var articleOld = await _articleReadRepository.GetByIdAsync(id);
-
-            articleOld.Title = article.Title;
-            articleOld.UpdateDate = DateTime.UtcNow;
-            articleOld.Content = article.Content;
-
-            var result = _articleWriteRepository.Update(articleOld);
-            await _articleWriteRepository.SaveAsync();
-
-            return result;
-        }
 
         public List<Article> GetAll()
         {
@@ -87,7 +73,7 @@ namespace BlogApp.Persistance.Concretes.Services
         }
 
 
-        public async Task<List<GetUserArticlesResponse>> GetUserArticles(GetUserArticlesDTO model)
+        public async Task<List<GetUserArticlesResponse>> GetUserArticlesAsync(GetUserArticlesDTO model)
         {
             var user = await _userService.GetUserWithRefreshToken(model.RefreshToken);
 
@@ -104,6 +90,69 @@ namespace BlogApp.Persistance.Concretes.Services
             if (result.Count == 0) return [];
 
             return result;
+        }
+
+        public async Task<EditArticleResponse> EditArticleAsync(EditArticleDTO model)
+        {
+            var article = await _articleReadRepository.GetByIdAsync(model.ArticleId);
+
+            if (article == null) throw new Exception();// I thought this artilce is not null here
+
+            var isTitleMatch = String.Equals(article.Title, model.Title, StringComparison.OrdinalIgnoreCase);
+            var isContentMatch = String.Equals(article.Content, model.Content, StringComparison.OrdinalIgnoreCase); 
+
+
+            article.Content = isContentMatch ? article.Content : model.Content;
+            article.Title = isTitleMatch ? article.Title : model.Title;
+
+            if(isTitleMatch || isContentMatch)
+            {
+                if (!isTitleMatch)
+                {
+                    article.UpdateDate = DateTime.UtcNow;
+                    
+                    await _articleWriteRepository.SaveAsync();
+
+                    return new EditArticleResponse
+                    {
+                        Message = "title updated!",
+                        Success = true,
+                    };
+                }
+
+                if(!isContentMatch)
+                {
+                    article.UpdateDate = DateTime.UtcNow;
+
+                    await _articleWriteRepository.SaveAsync();
+
+
+                    return new EditArticleResponse
+                    {
+                        Message = "content updated!",
+                        Success = true,
+                    };
+                }
+
+                return new EditArticleResponse
+                {
+                    Message = "content or title must be diffrent old one",
+                    Success = false,
+                };
+            }
+            else
+            {
+                article.UpdateDate = DateTime.UtcNow;
+
+                await _articleWriteRepository.SaveAsync();
+
+                return new EditArticleResponse
+                {
+                    Message = "article updated!",
+                    Success = true,
+                };
+            }
+
         }
     }
 }
