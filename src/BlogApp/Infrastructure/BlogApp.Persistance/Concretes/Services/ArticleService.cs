@@ -83,6 +83,7 @@ namespace BlogApp.Persistance.Concretes.Services
             {
                 Id = x.Id.ToString(),
                 Title = x.Title,
+                Content = x.Content,
                 CreatedDate = _dateFormatter.ConvertToString(x.CreateDate),
                 UpdatedDate = (x.UpdateDate != null ? _dateFormatter.ConvertToString(x.UpdateDate.Value) : UNCHANGED),
             }).ToList();
@@ -153,6 +154,19 @@ namespace BlogApp.Persistance.Concretes.Services
                 };
             }
 
+        }
+
+        public async Task<DeleteArticleResponse> DeleteArticleAsync(DeleteArticleDTO model)
+        {
+            var result = await _articleWriteRepository.RemoveAsync(model.ArticleId);
+
+            if (result)
+            {
+                await _articleWriteRepository.SaveAsync();
+                return new DeleteArticleResponse() { IsDeleted = result, Message = "article was deleted" };
+            }
+
+            return new DeleteArticleResponse() { IsDeleted = result, Message = "Something went wrong!" };
         }
     }
 }

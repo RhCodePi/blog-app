@@ -12,5 +12,6 @@ namespace BlogApp.Application.Abstractions.Services
         public List<Article> GetAll();
         public Task<List<GetUserArticlesResponse>> GetUserArticlesAsync(GetUserArticlesDTO model);
         public Task<EditArticleResponse> EditArticleAsync(EditArticleDTO model);
+        public Task<DeleteArticleResponse> DeleteArticleAsync(DeleteArticleDTO model);
     }
 }

@@ -65,5 +65,13 @@ namespace BlogApp.API.Controller
 
             return Ok(result);
         }
+
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteArticle(DeleteArticleDTO model)
+        {
+            var result = await _articleService.DeleteArticleAsync(model);
+
+            return Ok(result);
+        }
     }
 }
