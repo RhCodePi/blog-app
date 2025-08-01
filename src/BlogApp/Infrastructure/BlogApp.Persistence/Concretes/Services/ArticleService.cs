@@ -6,7 +6,7 @@ using BlogApp.Application.Exceptions;
 using BlogApp.Domain.Entities;
 using BlogApp.Domain.Entities.Identity;
 
-namespace BlogApp.Persistance.Concretes.Services
+namespace BlogApp.Persistence.Concretes.Services
 {
     public class ArticleService : IArticleService
     {
@@ -73,24 +73,31 @@ namespace BlogApp.Persistance.Concretes.Services
         }
 
 
-        public async Task<List<GetUserArticlesResponse>> GetUserArticlesAsync(GetUserArticlesDTO model)
+        public async Task<GetUserArticlesResponse> GetUserArticlesAsync(Pagination pagination,GetUserArticlesDTO model)
         {
             var user = await _userService.GetUserWithRefreshToken(model.RefreshToken);
 
             if (user == null) throw new UserNotFoundException();
 
-            var result = _articleReadRepository.GetWhere(x => x.UserID == user.Id).Select(x => new GetUserArticlesResponse
+            var result = _articleReadRepository.GetWhere(x => x.UserID == user.Id).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(x => new UserArticleResponse
             {
                 Id = x.Id.ToString(),
                 Title = x.Title,
                 Content = x.Content,
                 CreatedDate = _dateFormatter.ConvertToString(x.CreateDate),
-                UpdatedDate = (x.UpdateDate != null ? _dateFormatter.ConvertToString(x.UpdateDate.Value) : UNCHANGED),
+                UpdatedDate = (x.UpdateDate != null ? _dateFormatter.ConvertToString(x.UpdateDate.Value) : UNCHANGED)
             }).ToList();
 
-            if (result.Count == 0) return [];
+            var userArticles = new GetUserArticlesResponse
+            {
+                ArticleLists = result,
+                TotalCount = _articleReadRepository.GetWhere(x => x.UserID == user.Id).Count()
+            };
+            
 
-            return result;
+            if (userArticles.ArticleLists.Count == 0) return null;
+
+            return userArticles;
         }
 
         public async Task<EditArticleResponse> EditArticleAsync(EditArticleDTO model)

@@ -6,7 +6,7 @@ using BlogApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogApp.Persistance.Concretes.Services
+namespace BlogApp.Persistence.Concretes.Services
 {
     public class UserService : IUserService
     {

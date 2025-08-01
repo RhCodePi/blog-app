@@ -3,9 +3,8 @@ using BlogApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
-namespace BlogApp.Persistance.Contexts
+namespace BlogApp.Persistence.Contexts
 {
     public class BlogAppDBContext : IdentityDbContext<AppUser, IdentityRole,string>
     {

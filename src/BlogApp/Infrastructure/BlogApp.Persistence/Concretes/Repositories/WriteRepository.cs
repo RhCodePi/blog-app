@@ -1,10 +1,10 @@
 ﻿using BlogApp.Application.Abstractions.Repositories;
 using BlogApp.Domain.Entities.Common;
-using BlogApp.Persistance.Contexts;
+using BlogApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace BlogApp.Persistance.Concretes.Repositories
+namespace BlogApp.Persistence.Concretes.Repositories
 {
     public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     {

@@ -1,8 +1,8 @@
 ﻿using BlogApp.Application.Abstractions.Repositories.Articles;
 using BlogApp.Domain.Entities;
-using BlogApp.Persistance.Contexts;
+using BlogApp.Persistence.Contexts;
 
-namespace BlogApp.Persistance.Concretes.Repositories.Articles
+namespace BlogApp.Persistence.Concretes.Repositories.Articles
 {
     public class ArticleWriteRepository : WriteRepository<Article>, IArticleWriteRepository
     {

@@ -1,10 +1,10 @@
 ﻿using BlogApp.Application.Abstractions.Repositories;
 using BlogApp.Domain.Entities.Common;
-using BlogApp.Persistance.Contexts;
+using BlogApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace BlogApp.Persistance.Concretes.Repositories
+namespace BlogApp.Persistence.Concretes.Repositories
 {
     public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {

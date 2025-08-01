@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace BlogApp.Persistance
+namespace BlogApp.Persistence
 {
     public static class Configuration
     {

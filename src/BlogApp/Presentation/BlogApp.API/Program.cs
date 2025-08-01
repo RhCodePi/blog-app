@@ -1,12 +1,11 @@
 
-using BlogApp.Persistance;
+using BlogApp.Persistence;
 using BlogApp.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FluentValidation;
 using BlogApp.Application.Validators;
-using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 
 

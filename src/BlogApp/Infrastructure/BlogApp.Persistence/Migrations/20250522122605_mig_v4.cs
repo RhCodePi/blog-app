@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace BlogApp.Persistance.Migrations
+namespace BlogApp.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class mig_v4 : Migration

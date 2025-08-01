@@ -5,9 +5,8 @@ using BlogApp.Application.DTOs.Token.Response;
 using BlogApp.Application.Exceptions;
 using BlogApp.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-namespace BlogApp.Persistance.Concretes.Services
+namespace BlogApp.Persistence.Concretes.Services
 {
     public class AuthService : IAuthService
     {
@@ -38,8 +37,8 @@ namespace BlogApp.Persistance.Concretes.Services
 
             if (result.Succeeded)
             {
-                var tokenRepsonse = _tokenService.CreateAccessToken(15, user);
-                await _userService.UpdateRefreshTokenAsync(tokenRepsonse.RefreshToken, user, tokenRepsonse.Expiration, 15);
+                var tokenRepsonse = _tokenService.CreateAccessToken(600, user);
+                await _userService.UpdateRefreshTokenAsync(tokenRepsonse.RefreshToken, user, tokenRepsonse.Expiration, 600);
                 return new()
                 {
                     IsSuccess = true,
@@ -55,8 +54,8 @@ namespace BlogApp.Persistance.Concretes.Services
             AppUser? user = await _userService.GetUserWithRefreshToken(refreshToken);
             if(user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
             {
-                var tokenRepsonse = _tokenService.CreateAccessToken(15, user);
-                await _userService.UpdateRefreshTokenAsync(tokenRepsonse.RefreshToken, user, tokenRepsonse.Expiration, 15);
+                var tokenRepsonse = _tokenService.CreateAccessToken(60, user);
+                await _userService.UpdateRefreshTokenAsync(tokenRepsonse.RefreshToken, user, tokenRepsonse.Expiration, 60);
                 return tokenRepsonse;
             }else 
                 throw new UserNotFoundException();

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlogApp.Persistance
+namespace BlogApp.Persistence
 {
     public static class ServiceRegistration
     {
